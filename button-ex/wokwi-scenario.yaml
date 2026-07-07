@@ -1,0 +1,67 @@
+name: 'Button Patterns Test'
+version: 1
+author: 'Developer'
+steps:
+  # =========================================================================
+  # 0. SETUP (load the application and wait for it to initialize)
+  # =========================================================================
+
+  - delay: 3s
+
+  # =========================================================================
+  # 1. SINGLE CLICK (Press, hold 150ms, release)
+  # =========================================================================
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 1
+  - delay: 150ms
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 0
+
+  # 5-second interval
+  - delay: 3s
+
+  # =========================================================================
+  # 2. DOUBLE-CLICK (Click, quick release, click again within timing window)
+  # =========================================================================
+  # First click
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 1
+  - delay: 100ms
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 0
+  # Gap between clicks
+  - delay: 150ms
+  # Second click
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 1
+  - delay: 100ms
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 0
+
+  # 5-second interval
+  - delay: 3s
+
+  # =========================================================================
+  # 3. LONG-PRESS (Press, hold for 3 seconds, release)
+  # =========================================================================
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 1
+  - delay: 3000ms
+  - set-control:
+      part-id: btn1
+      control: pressed
+      value: 0
