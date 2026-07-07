@@ -3,9 +3,10 @@
 #include <esp_err.h>
 #include "iot_button.h"
 #include "button_gpio.h"
+#include "sdkconfig.h"
 
 #define TAG "app"
-#define APP_BUTTON_GPIO 0
+#define APP_BUTTON_GPIO CONFIG_APP_BUTTON
 
 static button_handle_t app_button = NULL;
 
@@ -30,6 +31,8 @@ void app_main(void)
 
     const button_gpio_config_t gpio_cfg = {
         .gpio_num = APP_BUTTON_GPIO};
+
+    ESP_LOGI(TAG, "button gpio num: %d", APP_BUTTON_GPIO);
 
     ESP_ERROR_CHECK(iot_button_new_gpio_device(&button_cfg, &gpio_cfg, &app_button));
 

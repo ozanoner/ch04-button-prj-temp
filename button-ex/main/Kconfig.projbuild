@@ -1,0 +1,9 @@
+menu "Application Configuration"
+
+    config APP_BUTTON
+        int "Enable Application Button"
+        default 0
+        help
+            Sets the GPIO number for the application button.
+
+endmenu
