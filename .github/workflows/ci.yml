@@ -20,7 +20,7 @@ jobs:
         with:
           push: never
           runCmd: |
-            idf-ci build run --path button-ex --target ${{ matrix.target }}
+            idf-ci build run --paths button-ex --target ${{ matrix.target }}
 
       - name: Upload Firmware Artifacts
         uses: actions/upload-artifact@v4
