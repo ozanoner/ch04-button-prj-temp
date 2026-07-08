@@ -18,19 +18,12 @@ jobs:
       - name: Create Empty .env
         run: touch .env
 
-      - name: Build and Test in Dev Container
+      - name: Build in Dev Container
         uses: devcontainers/ci@v0.3
         with:
           push: never
-          env: |
-            WOKWI_CLI_TOKEN=${{ secrets.WOKWI_CLI_TOKEN }}
           runCmd: |
             idf-ci build run -p "${APP_PATH}" --target ${{ matrix.target }}
-            python -m pytest button-ex/test_button_ex.py \
-              --target ${{ matrix.target }} \
-              --wokwi-diagram "${APP_PATH}/diagram.${{ matrix.target }}.json" \
-              --embedded-services idf,wokwi \
-              --junitxml="report_${{ matrix.target }}.xml"
 
       - name: Upload Firmware Artifacts
         uses: actions/upload-artifact@v4
@@ -38,6 +31,23 @@ jobs:
           name: esp-binaries-${{ matrix.target }}
           path: ${{ env.APP_PATH }}/build_${{ matrix.target }}_*
           if-no-files-found: error
+
+      - name: Run Pytest in Dev Container
+        uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          env: |
+            WOKWI_CLI_TOKEN=${{ secrets.WOKWI_CLI_TOKEN }}
+          runCmd: |
+            if [ -z "${WOKWI_CLI_TOKEN:-}" ]; then
+              echo "WOKWI_CLI_TOKEN is not set. Configure it in repository secrets."
+              exit 1
+            fi
+            python -m pytest button-ex/test_button_ex.py \
+              --target ${{ matrix.target }} \
+              --wokwi-diagram "${APP_PATH}/diagram.${{ matrix.target }}.json" \
+              --embedded-services idf,wokwi \
+              --junitxml="report_${{ matrix.target }}.xml"
 
       - name: Upload Pytest JUnit Results
         uses: actions/upload-artifact@v4
