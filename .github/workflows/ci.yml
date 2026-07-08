@@ -2,9 +2,6 @@ name: Build and Test ESP-IDF Applications
 
 on: [push, pull_request]
 
-env:
-  APP_PATH: button-ex
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -23,13 +20,13 @@ jobs:
         with:
           push: never
           runCmd: |
-            idf-ci build run -p "${APP_PATH}" --target ${{ matrix.target }}
+            idf-ci build run --path button-ex --target ${{ matrix.target }}
 
       - name: Upload Firmware Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: esp-binaries-${{ matrix.target }}
-          path: ${{ env.APP_PATH }}/build_${{ matrix.target }}_*
+          path: button-ex/build_${{ matrix.target }}_*
           if-no-files-found: error
 
       - name: Run Pytest in Dev Container
@@ -45,7 +42,7 @@ jobs:
             fi
             python -m pytest button-ex/test_button_ex.py \
               --target ${{ matrix.target }} \
-              --wokwi-diagram "${APP_PATH}/diagram.${{ matrix.target }}.json" \
+              --wokwi-diagram "button-ex/diagram.${{ matrix.target }}.json" \
               --embedded-services idf,wokwi \
               --junitxml="report_${{ matrix.target }}.xml"
 
