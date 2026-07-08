@@ -1,0 +1,7 @@
+config_rules = [
+    "sdkconfig.ci.*=",
+]
+
+build_dir = "build_@t_@w"
+build_log_filename = "build.log"
+size_json_filename = "size.json"

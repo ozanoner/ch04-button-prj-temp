@@ -9,7 +9,7 @@ RUN echo "source /opt/esp/idf/export.sh > /dev/null 2>&1" >> ~/.bashrc
 RUN echo "set -o vi" >> ~/.bashrc
 
 RUN curl -L https://wokwi.com/ci/install.sh | sh
-RUN bash -c "source /opt/esp/idf/export.sh && pip install --upgrade pip && pip install robotframework git-cliff"
+RUN bash -lc "source /opt/esp/idf/export.sh && python -m pip install --upgrade pip && python -m pip install pytest idf-ci pytest-embedded-idf pytest-embedded-wokwi"
 
 
 ENTRYPOINT [ "/opt/esp/entrypoint.sh" ]

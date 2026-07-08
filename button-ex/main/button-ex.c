@@ -15,11 +15,6 @@ static void app_single_click_cb(void *button_handle, void *usr_data)
     ESP_LOGI(TAG, "single-click");
 }
 
-static void app_double_click_cb(void *button_handle, void *usr_data)
-{
-    ESP_LOGI(TAG, "double-click");
-}
-
 static void app_long_press_cb(void *button_handle, void *usr_data)
 {
     ESP_LOGI(TAG, "long-press");
@@ -37,6 +32,5 @@ void app_main(void)
     ESP_ERROR_CHECK(iot_button_new_gpio_device(&button_cfg, &gpio_cfg, &app_button));
 
     ESP_ERROR_CHECK(iot_button_register_cb(app_button, BUTTON_SINGLE_CLICK, NULL, app_single_click_cb, NULL));
-    ESP_ERROR_CHECK(iot_button_register_cb(app_button, BUTTON_DOUBLE_CLICK, NULL, app_double_click_cb, NULL));
     ESP_ERROR_CHECK(iot_button_register_cb(app_button, BUTTON_LONG_PRESS_START, NULL, app_long_press_cb, NULL));
 }
